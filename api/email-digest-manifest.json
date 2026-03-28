@@ -1,0 +1,36 @@
+{
+  "name": "email-digest",
+  "type": "task",
+  "display_name": "Email Digest",
+  "collection": "email-triage",
+  "collection_version": "1.0.0",
+  "version": "1.0.0",
+  "eol_date": null,
+  "eol_warning_days": 60,
+  "stateful": true,
+  "produces_artifacts": true,
+  "produces_shared_artifacts": false,
+  "setup_template": "email-digest-setup.md",
+  "dependency_status": "complete",
+  "missing_dependencies": [],
+  "parameter_provenance": {
+    "source_label": "member-overridable",
+    "processed_label": "member-overridable",
+    "max_emails_per_run": "member-defined",
+    "artifact_directory": "member-defined",
+    "relevance_criteria": "member-defined",
+    "credentials_path": "member-defined"
+  },
+  "dependencies": {
+    "skills": [],
+    "tasks": [
+      "email-triage"
+    ]
+  },
+  "external_dependencies": [
+    "Gmail MCP",
+    "Gmail API OAuth credentials"
+  ],
+  "reads_from": null,
+  "writes_to": null
+}

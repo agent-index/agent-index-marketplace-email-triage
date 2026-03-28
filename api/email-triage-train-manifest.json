@@ -1,0 +1,26 @@
+{
+  "name": "email-triage-train",
+  "type": "skill",
+  "display_name": "Email Triage Train",
+  "collection": "email-triage",
+  "collection_version": "1.0.0",
+  "version": "1.0.0",
+  "eol_date": null,
+  "eol_warning_days": 60,
+  "stateful": true,
+  "always_on_eligible": false,
+  "setup_template": "email-triage-train-setup.md",
+  "dependency_status": "complete",
+  "missing_dependencies": [],
+  "parameter_provenance": {
+    "review_mode_default": "member-defined",
+    "stale_log_warning_days": "member-defined"
+  },
+  "dependencies": {
+    "skills": [],
+    "tasks": [
+      "email-triage"
+    ]
+  },
+  "external_dependencies": []
+}

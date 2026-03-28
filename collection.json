@@ -1,0 +1,40 @@
+{
+  "name": "email-triage",
+  "display_name": "Email Triage",
+  "version": "1.0.0",
+  "description": "Automated Gmail inbox triage with configurable categories, priority detection, iterative training, and summary delivery via Slack or chat.",
+  "author": "agent-index",
+  "license": "proprietary",
+  "category": "communication",
+  "agent_index_min_version": "2.0.0",
+  "api": [
+    "email-triage",
+    "email-triage-config",
+    "email-triage-train",
+    "email-digest"
+  ],
+  "dependencies": [],
+  "external_dependencies": [
+    {
+      "system": "Gmail MCP",
+      "access_required": "Gmail search and read access (gmail_search, gmail_get_message, gmail_get_thread)",
+      "contact": "org admin",
+      "required": true
+    },
+    {
+      "system": "Gmail API OAuth credentials",
+      "access_required": "Google Cloud OAuth2 credentials with gmail.modify scope for the labeling and archiving scripts",
+      "contact": "org admin",
+      "required": true
+    },
+    {
+      "system": "Slack MCP",
+      "access_required": "Slack message sending (slack_send_message). Only required if delivery_method is 'slack'.",
+      "contact": "org admin",
+      "required": false
+    }
+  ],
+  "eol_date": null,
+  "marketplace_url": "https://github.com/agent-index/agent-index-marketplace-email-triage",
+  "support_url": "https://agent-index.ai/support"
+}
