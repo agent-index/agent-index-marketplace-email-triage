@@ -3,7 +3,7 @@ name: email-triage-setup
 type: setup
 version: 1.0.0
 collection: email-triage
-description: Setup for the email-triage task — configures inbox classification categories, delivery method, Gmail credentials, and priority settings.
+description: Setup for the email-triage task — configures inbox classification categories, delivery method, Gmail credentials, and priority settings. All parameters are member-defined; collection setup provides suggested defaults as starting values.
 target: email-triage
 target_type: task
 upgrade_compatible: true
@@ -11,7 +11,7 @@ upgrade_compatible: true
 
 ## Setup Overview
 
-This setup configures the core email triage task. It collects the member's Gmail credentials, delivery preferences, and initial classification categories. The org admin may have pre-configured default categories and delivery method at collection install time — those defaults are used as starting points but can be customized.
+This setup configures the core email triage task. It collects the member's Gmail credentials, delivery preferences, and initial classification categories. The org admin may have configured suggested defaults at collection install time — those are offered as starting values but the member owns all settings and can change any of them.
 
 ---
 
@@ -19,7 +19,7 @@ This setup configures the core email triage task. It collects the member's Gmail
 
 - Gmail MCP server is connected and responding (test with a simple inbox search) → if not: "Please connect a Gmail MCP server before setting up email triage."
 - Gmail OAuth credentials exist at the configured path or need to be created → if not: walk the member through OAuth setup (see Prerequisites below)
-- If delivery_method is `slack`: Slack MCP server is connected → if not: "Slack delivery is configured for this org but your Slack MCP isn't connected. Connect it or switch to chat delivery."
+- If delivery_method is `slack`: Slack MCP server is connected → if not: "You've chosen Slack delivery but your Slack MCP isn't connected. Connect it or switch to chat delivery."
 
 ---
 
@@ -39,23 +39,26 @@ The labeling and archiving scripts require Google OAuth2 credentials with `gmail
 
 ## Parameters
 
-### `delivery_method` [org-mandated]
+### `delivery_method` [member-defined]
 How the triage summary is delivered after each run.
 - Options: `slack`, `chat`
-- Default: inherited from collection setup
+- Suggested default: from collection setup's `suggested_delivery_method` (typically `slack`)
+- Ask: "How would you like triage summaries delivered? Options: 'slack' (sends a DM) or 'chat' (outputs in conversation). Your org suggests '{suggested_delivery_method}'."
 - If `slack`: the member must also provide their `slack_user_id`
 
-### `label_prefix` [org-mandated]
+### `label_prefix` [member-defined]
 Prefix applied to all auto-created Gmail labels.
-- Default: `ai-reviewed-`
+- Suggested default: from collection setup's `suggested_label_prefix` (typically `ai-reviewed-`)
+- Ask: "What prefix should be used for Gmail labels? Suggested: '{suggested_label_prefix}'. For example, a category named 'spam' gets label '{suggested_label_prefix}spam'."
 - Example: with prefix `ai-reviewed-`, a category named `spam` gets label `ai-reviewed-spam`
 
-### `max_priority_emails` [org-mandated]
+### `max_priority_emails` [member-defined]
 Maximum number of high-priority emails to surface per run.
-- Default: 15
+- Suggested default: from collection setup's `suggested_max_priority_emails` (typically `15`)
+- Ask: "How many high-priority emails should be surfaced per run? Suggested: {suggested_max_priority_emails}."
 
-### `categories` [member-overridable]
-List of classification categories. Initialized from the org's `default_categories` at setup time. The member can customize via `email-triage-config` after setup.
+### `categories` [member-defined]
+List of classification categories. Initialized from the collection setup's `suggested_categories` as a starting point. The member can customize during setup and anytime after via `email-triage-config`.
 
 Each category is an object with:
 - `name` (string, kebab-case) — unique identifier
@@ -65,12 +68,13 @@ Each category is an object with:
 - `signals.subject_patterns` (array of strings) — subject line keywords
 - `signals.description` (string) — natural language description for agent classification
 
-During setup, present the org's default categories and ask: "These are the default categories your org has configured. Would you like to use them as-is, or customize?"
+During setup, present the suggested categories and ask: "These categories are suggested as a starting point. Would you like to use them as-is, customize them, or start fresh with your own?"
 
-### `priority_sensitivity` [role-suggested]
+### `priority_sensitivity` [member-defined]
 How aggressively to flag emails as high priority.
 - Options: `high` (1+ criteria), `medium` (2+ criteria), `low` (all 3 criteria)
 - Default: `high`
+- Ask: "How aggressively should emails be flagged as high priority? 'high' (flag if any one criterion is met), 'medium' (two or more), or 'low' (all three). Default is 'high'."
 
 ### `slack_user_id` [member-defined]
 The member's Slack user ID for DM delivery. Required if delivery_method is `slack`.
@@ -124,7 +128,7 @@ Email addresses or domains that always classify as spam.
 - `triage-run-log.json` (ephemeral, overwritten each run anyway)
 
 ### Requires Member Attention
-- If new org-mandated parameters are added in a future version, the member may be prompted to review them
+- If new parameters are added in a future version, the member will be prompted to configure them
 - If the category schema changes, existing categories will be migrated automatically where possible
 
 ### Migration Notes

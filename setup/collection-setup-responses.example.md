@@ -1,10 +1,10 @@
 ## Email Triage Collection Configuration
 
-delivery_method: slack
-label_prefix: "ai-reviewed-"
-max_priority_emails: 15
+suggested_delivery_method: slack
+suggested_label_prefix: "ai-reviewed-"
+suggested_max_priority_emails: 15
 
-default_categories:
+suggested_categories:
   - name: spam
     label: ai-reviewed-spam
     action: label-and-archive

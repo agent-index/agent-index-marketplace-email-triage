@@ -30,6 +30,8 @@ When the member invokes this skill, begin by reading their current `setup-respon
 - Number of ignored senders
 - Current priority sensitivity setting
 - Current delivery method
+- Current label prefix
+- Current max priority emails
 
 Then ask what they'd like to do.
 
@@ -64,6 +66,15 @@ Explain the three levels:
 - `low` — flag only if all three criteria are met (fewest emails flagged)
 Let the member choose. Default is `high`.
 
+**Change delivery method**
+Let the member switch between `slack` and `chat`. If switching to `slack`, ensure they have a `slack_user_id` configured (prompt for it if not). If switching away from `slack`, note that their `slack_user_id` will be preserved in case they switch back.
+
+**Change label prefix**
+Let the member change the prefix applied to all Gmail labels. Warn that changing the prefix does not rename existing Gmail labels — only new labels created going forward will use the new prefix. Existing categories will have their `label` field updated to use the new prefix.
+
+**Change max priority emails**
+Let the member adjust the maximum number of high-priority emails surfaced per run.
+
 **Import from training data**
 If `triage-corrections.json` exists, offer to review learned `sender_rules` and promote them to permanent category `sender_patterns`. This closes the loop between training and configuration: corrections that have been made enough times become explicit rules.
 
@@ -73,6 +84,9 @@ After any modification, update the member's `setup-responses.md` with the new co
 
 ```yaml
 ## Email Triage Configuration
+
+delivery_method: slack
+label_prefix: "ai-reviewed-"
 
 categories:
   - name: spam
@@ -115,6 +129,6 @@ Before saving any change:
 
 ### Guardrails
 
-- Never modify the `delivery_method`, `slack_user_id`, or `credentials_path` — those are set during setup
+- Never modify `credentials_path` — that is set during setup and tied to the member's OAuth tokens
 - Never delete the member's `triage-corrections.json` or `triage-run-log.json`
 - Always confirm destructive operations (remove category, clear VIP list) before executing
