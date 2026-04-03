@@ -1,7 +1,7 @@
 {
   "name": "email-triage",
   "display_name": "Email Triage",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Automated Gmail inbox triage with configurable categories, priority detection, iterative training, and summary delivery via Slack or chat.",
   "author": "agent-index",
   "license": "proprietary",

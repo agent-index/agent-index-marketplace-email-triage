@@ -1,7 +1,7 @@
 ---
 name: email-triage-tutorial
 type: skill
-version: 1.1.0
+version: 1.2.0
 collection: email-triage
 description: Explains the email-triage collection to members — its concepts, workflows, and how to be productive with it — through a guided tour or targeted answers to specific questions.
 stateful: false

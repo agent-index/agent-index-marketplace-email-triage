@@ -1,7 +1,7 @@
 ---
 name: email-triage-tutorial-setup
 type: setup
-version: 1.1.0
+version: 1.2.0
 collection: email-triage
 description: Setup for the email-triage-tutorial skill — minimal setup that only requires access to the member's configuration to provide personalized examples.
 target: email-triage-tutorial
