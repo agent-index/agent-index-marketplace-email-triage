@@ -1,7 +1,7 @@
 {
   "name": "email-triage",
   "display_name": "Email Triage",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Automated Gmail inbox triage with configurable categories, priority detection, iterative training, and summary delivery via Slack or chat.",
   "author": "agent-index",
   "license": "proprietary",
@@ -11,7 +11,8 @@
     "email-triage",
     "email-triage-config",
     "email-triage-train",
-    "email-digest"
+    "email-digest",
+    "email-triage-tutorial"
   ],
   "dependencies": [],
   "external_dependencies": [
@@ -23,7 +24,7 @@
     },
     {
       "system": "Gmail API OAuth credentials",
-      "access_required": "Google Cloud OAuth2 credentials with gmail.modify scope for the labeling and archiving scripts",
+      "access_required": "Google Cloud OAuth2 credentials.json with gmail.modify scope, provided by org admin at collection install time. Members authorize their own accounts against it during member setup.",
       "contact": "org admin",
       "required": true
     },
