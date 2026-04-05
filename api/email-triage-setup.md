@@ -18,22 +18,31 @@ This setup configures the core email triage task. It collects the member's Gmail
 ## Pre-Setup Checks
 
 - Gmail MCP server is connected and responding (test with a simple inbox search) → if not: "Please connect a Gmail MCP server before setting up email triage."
-- Gmail OAuth credentials exist at the configured path or need to be created → if not: walk the member through OAuth setup (see Prerequisites below)
+- Org-level `credentials.json` exists on the remote filesystem (read from `gmail_credentials_path` in `collection-setup-responses.md` using `aifs_read`) → if not: "Your org admin needs to complete the collection setup first — it provides the Gmail OAuth credentials that all members use. Contact your admin."
 - If delivery_method is `slack`: Slack MCP server is connected → if not: "You've chosen Slack delivery but your Slack MCP isn't connected. Connect it or switch to chat delivery."
 
 ---
 
 ## Prerequisites
 
-### Gmail OAuth Credentials
+### Gmail Authorization
 
-The labeling and archiving scripts require Google OAuth2 credentials with `gmail.modify` scope. Setup flow:
+The labeling and archiving scripts require a personal `token.json` that authorizes your Gmail account. Your org admin has already provided the OAuth app credentials (`credentials.json`) at collection install time — you just need to authorize your account against it.
 
-1. Ask the member if they already have a Google Cloud project with OAuth credentials configured for Gmail, or if they need to create one.
-2. If creating new: walk through enabling the Gmail API in Google Cloud Console, creating an OAuth consent screen, and downloading `credentials.json`.
-3. Ask where to store `credentials.json` and `token.json` — suggest a default path within the member's workspace.
-4. **Important: first-run OAuth must be completed manually.** The scripts use `InstalledAppFlow.run_local_server()` which opens a browser for authentication. The member must run one of the scripts once from a machine with a browser (e.g., `python label_emails.py --label test --message-id dummy --dry-run --credentials-dir /path/to/creds`) to generate `token.json`. After this initial authorization, the agent can use the refresh token in headless environments.
-5. Test the credentials by running the labeling script in dry-run mode.
+**Setup flow:**
+
+1. Copy `credentials.json` from the remote filesystem (`gmail_credentials_path` in collection setup responses) to the member's **local** token directory: `{member_workspace}/apps/gmail-credentials/credentials.json` (using `aifs_read` → native Write).
+2. **Run the browser authorization flow.** The member must run the labeling script once from a machine with a browser to generate their personal `token.json`:
+   ```
+   python label_emails.py --label test --message-id dummy --dry-run \
+       --credentials-file {member_workspace}/apps/gmail-credentials/credentials.json \
+       --token-dir {member_workspace}/apps/gmail-credentials/
+   ```
+   This opens a browser window where the member clicks "Allow" to authorize their Gmail account. After this one-time step, the agent can use the refresh token in headless environments.
+3. Test the credentials by running the labeling script in dry-run mode.
+4. Once `token.json` is generated, the local copy of `credentials.json` can optionally be removed — it's only needed for the initial authorization and token refresh. Keeping it avoids re-fetching if the token expires and needs re-authorization.
+
+> **What members DON'T need to do:** Create a Google Cloud project, enable APIs, configure OAuth consent screens, or download credentials. The admin handled all of that.
 
 ---
 
@@ -85,9 +94,10 @@ Path to the collection's `apps/` directory containing the `gmail-labeler` and `g
 - Default: resolved automatically from the collection's install directory
 - Used in bash commands to invoke the labeling and archiving scripts
 
-### `credentials_path` [member-defined]
-Path to the directory containing `credentials.json` and `token.json` for Gmail OAuth.
+### `token_dir` [member-defined]
+Path to the directory where the member's personal `token.json` is stored (generated during the browser auth flow in Prerequisites).
 - Default: `{member_workspace}/apps/gmail-credentials/`
+- Note: `credentials.json` is provided org-wide by the admin (see collection setup). It is copied to this directory during member setup to support the initial auth flow and token refresh.
 
 ### `vip_senders` [member-defined]
 Email addresses or domains that always flag as high-priority.
@@ -107,7 +117,7 @@ Email addresses or domains that always classify as spam.
 2. Write `manifest.json` to the member's task directory
 3. Create empty `triage-corrections.json` with the base schema
 4. Create empty `triage-run-log.json` placeholder
-5. Test Gmail credentials by running `label_emails.py --dry-run` with a dummy label
+5. Test Gmail credentials by running `label_emails.py --dry-run --credentials-file {token_dir}/credentials.json --token-dir {token_dir}` with a dummy label
 6. Register entry in `member-index.json` with alias `@ai:email-triage`
 7. Confirm to member: "Email Triage is set up with {N} categories. Say '@ai:email-triage' to run it, or '@ai:email-triage-config' to adjust your categories."
 
@@ -118,7 +128,7 @@ Email addresses or domains that always classify as spam.
 ### Preserved Responses
 - `categories` (including any member customizations)
 - `slack_user_id`
-- `credentials_path`
+- `token_dir`
 - `vip_senders`
 - `ignore_senders`
 - `priority_sensitivity`

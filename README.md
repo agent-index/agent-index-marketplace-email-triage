@@ -15,14 +15,14 @@ Email Triage scans your Gmail inbox on each run, classifies every unread email, 
 
 ## Prerequisites
 
-- A Gmail account with OAuth2 credentials configured for the `gmail.modify` scope (setup guide provided during install)
+- A Google Cloud OAuth2 `credentials.json` with `gmail.modify` scope — provided by the org admin at collection install time (members don't create this)
 - A Gmail MCP server connected to the agent's session
 - A Slack MCP server connected to the agent's session (optional — only needed if delivery method is Slack)
 
 ## Workflow
 
-1. **Install** — Admin installs the collection and configures org-level defaults (delivery method, label prefix, default categories).
-2. **Member setup** — Each member configures their Slack ID, Gmail credentials, and personalizes their category list.
+1. **Install** — Admin installs the collection, provides the org's Gmail OAuth `credentials.json`, and configures org-level defaults (delivery method, label prefix, default categories).
+2. **Member setup** — Each member authorizes their Gmail account (one-time browser flow), configures their Slack ID, and personalizes their category list.
 3. **Run** — Member invokes `email-triage` (manually or on a schedule). Inbox is scanned, categorized, and summarized.
 4. **Train** — Member invokes `email-triage-train` to review recent classifications and correct mistakes. Corrections feed back into future runs.
 5. **Tune** — Member uses `email-triage-config` to add new categories or adjust rules as their email patterns change.

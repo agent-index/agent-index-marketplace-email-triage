@@ -34,7 +34,7 @@ This task reads its configuration from the member's `setup-responses.md` file.
 
 - **`source_label`** — Gmail label to pull emails from (default: the label associated with the `news` category, e.g., `ai-reviewed-news`)
 - **`processed_label`** — Gmail label to apply after processing (default: `email-digest-processed`)
-- **`credentials_path`** — path to directory containing Gmail OAuth credentials (inherited from email-triage setup)
+- **`token_dir`** — path to directory containing the member's personal `token.json` and local copy of `credentials.json` (inherited from email-triage setup)
 - **`max_emails_per_run`** — maximum emails to process per run (default: 10)
 - **`artifact_directory`** — local path to save HTML briefings
 
@@ -67,7 +67,8 @@ Apply the `processed_label` to all processed message IDs using the labeling scri
 ```bash
 python {apps_path}/gmail-labeler/label_emails.py \
     --label "{processed_label}" \
-    --credentials-dir "{credentials_path}" \
+    --credentials-file "{token_dir}/credentials.json" \
+    --token-dir "{token_dir}" \
     --message-id <ID> [--message-id <ID> ...]
 ```
 

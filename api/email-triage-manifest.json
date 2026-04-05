@@ -3,7 +3,7 @@
   "type": "task",
   "display_name": "Email Triage",
   "collection": "email-triage",
-  "collection_version": "1.0.0",
+  "collection_version": "1.1.0",
   "version": "1.0.0",
   "eol_date": null,
   "eol_warning_days": 60,
@@ -21,7 +21,7 @@
     "priority_sensitivity": "member-defined",
     "slack_user_id": "member-defined",
     "apps_path": "member-defined",
-    "credentials_path": "member-defined",
+    "token_dir": "member-defined",
     "vip_senders": "member-defined",
     "ignore_senders": "member-defined"
   },

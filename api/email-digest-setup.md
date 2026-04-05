@@ -48,8 +48,8 @@ YAML block describing what content is relevant to this member. Used to decide Fe
 - Ask: "What topics are relevant to your work? I'll use these to decide which articles to feature vs. skip. For example: 'AI & LLMs — foundation models, GenAI releases, AI regulation' or 'Marketing — campaign strategy, brand positioning, competitor launches'."
 - Format the response into a structured YAML block.
 
-### `credentials_path` [member-defined]
-Path to Gmail OAuth credentials directory. Inherited from email-triage setup if already configured.
+### `token_dir` [member-defined]
+Path to directory containing the member's personal `token.json` (and local copy of org-provided `credentials.json`). Inherited from email-triage setup if already configured.
 
 ---
 

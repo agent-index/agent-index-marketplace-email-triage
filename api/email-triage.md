@@ -45,7 +45,7 @@ This task reads its configuration from the member's `setup-responses.md` file at
 
 - **`delivery_method`** — `slack` or `chat`
 - **`slack_user_id`** — Slack user ID for DM delivery (required if delivery_method is `slack`)
-- **`credentials_path`** — path to directory containing Gmail OAuth `credentials.json` and `token.json`
+- **`token_dir`** — path to directory containing the member's personal `token.json` (and a local copy of the org-provided `credentials.json`)
 - **`label_prefix`** — string prefix for all auto-created labels (default: `ai-reviewed-`)
 - **`max_priority_emails`** — maximum high-priority emails to surface per run (default: 15)
 
@@ -98,7 +98,8 @@ For all emails classified into a category (not `other`), apply the appropriate G
 ```bash
 python {apps_path}/gmail-labeler/label_emails.py \
     --label "{label}" \
-    --credentials-dir "{credentials_path}" \
+    --credentials-file "{token_dir}/credentials.json" \
+    --token-dir "{token_dir}" \
     --message-id <ID> [--message-id <ID> ...]
 ```
 
@@ -108,7 +109,8 @@ After labeling, archive all successfully labeled emails whose category action is
 
 ```bash
 python {apps_path}/gmail-archiver/archive_emails.py \
-    --credentials-dir "{credentials_path}" \
+    --credentials-file "{token_dir}/credentials.json" \
+    --token-dir "{token_dir}" \
     --message-id <ID> [--message-id <ID> ...]
 ```
 

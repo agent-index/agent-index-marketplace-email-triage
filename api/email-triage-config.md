@@ -129,6 +129,6 @@ Before saving any change:
 
 ### Guardrails
 
-- Never modify `credentials_path` — that is set during setup and tied to the member's OAuth tokens
+- Never modify `token_dir` — that is set during setup and tied to the member's OAuth tokens
 - Never delete the member's `triage-corrections.json` or `triage-run-log.json`
 - Always confirm destructive operations (remove category, clear VIP list) before executing

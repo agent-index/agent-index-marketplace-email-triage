@@ -9,7 +9,7 @@ upgrade_compatible: true
 
 ## Collection Setup Overview
 
-This setup is run by an org admin when installing the email-triage collection. It configures suggested defaults that are offered to members as starting values during their individual setup. All settings are member-configurable — nothing is org-mandated. Members can accept the suggested defaults or pick their own values.
+This setup is run by an org admin when installing the email-triage collection. It handles two things: (1) providing the org's Gmail OAuth credentials that all members authenticate against, and (2) configuring suggested defaults for delivery method, labels, and categories. The OAuth credentials are org-mandated; the suggested defaults are fully member-configurable.
 
 ---
 
@@ -17,7 +17,24 @@ This setup is run by an org admin when installing the email-triage collection. I
 
 - Gmail MCP server available in the org's agent environment
 - If suggesting Slack delivery: Slack MCP server available
-- Org admin has confirmed that members will have access to Gmail OAuth credentials (either per-member or via a shared service account)
+- Access to a Google Cloud project with the Gmail API enabled (admin will provide the OAuth `credentials.json` during setup below)
+
+---
+
+## Org-Level Credential Setup
+
+### `gmail_credentials_json` [org-mandated]
+
+The Gmail labeling and archiving scripts require a Google Cloud OAuth2 `credentials.json` file (the OAuth app identity). This is an org-level artifact — individual members do not create their own Google Cloud projects. Members only authorize their own Gmail account against this shared OAuth app during their member setup.
+
+**Setup flow:**
+
+1. Ask the admin: "Do you already have a Google Cloud project with an OAuth client configured for the Gmail API (`gmail.modify` scope), or do you need to create one?"
+2. If creating new: walk through enabling the Gmail API in Google Cloud Console, creating an OAuth consent screen (internal to the org), creating a Desktop OAuth client ID, and downloading `credentials.json`.
+3. Store `credentials.json` on the **remote filesystem** at: `org-config/apps/gmail-credentials/credentials.json` (using `aifs_write`).
+4. Confirm: "This credentials.json will be used by all members for email labeling and archiving. Each member will authorize their own Gmail account against it during their setup."
+
+> **Why org-level?** The `credentials.json` identifies the OAuth app (a Google Cloud project artifact). Creating one requires Google Cloud Console access, billing awareness, and org-level decisions about consent screen branding. Members shouldn't need to know any of this — they just click "Allow" in a browser during their setup.
 
 ---
 
@@ -94,15 +111,17 @@ For each additional category the admin wants to add, collect: name, description,
 
 Collection setup is complete when:
 
-1. `collection-setup-responses.md` is written to the collection's `/setup/` directory on the remote filesystem with all suggested defaults in YAML format
-2. All parameter values are valid (suggested_delivery_method is `slack` or `chat`, suggested_label_prefix is a non-empty string, suggested_max_priority_emails is a positive integer, suggested_categories contains at least one category)
-3. Admin has confirmed the configuration
+1. `credentials.json` is stored on the remote filesystem at `org-config/apps/gmail-credentials/credentials.json` (using `aifs_write`)
+2. `collection-setup-responses.md` is written to the collection's `/setup/` directory on the remote filesystem with all suggested defaults in YAML format
+3. All parameter values are valid (suggested_delivery_method is `slack` or `chat`, suggested_label_prefix is a non-empty string, suggested_max_priority_emails is a positive integer, suggested_categories contains at least one category)
+4. Admin has confirmed the configuration
 
 The responses file uses this format:
 
 ```yaml
 ## Email Triage Collection Configuration
 
+gmail_credentials_path: "org-config/apps/gmail-credentials/credentials.json"
 suggested_delivery_method: slack
 suggested_label_prefix: "ai-reviewed-"
 suggested_max_priority_emails: 15
@@ -141,6 +160,7 @@ suggested_categories:
 ## Upgrade Behavior
 
 ### Preserved Responses
+- `gmail_credentials_path`
 - `suggested_delivery_method`
 - `suggested_label_prefix`
 - `suggested_max_priority_emails`

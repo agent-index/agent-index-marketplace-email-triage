@@ -56,10 +56,14 @@ SCOPES = ["https://www.googleapis.com/auth/gmail.modify"]
 # Auth
 # ─────────────────────────────────────────────
 
-def get_gmail_service(credentials_dir: Path):
-    """Authenticate and return a Gmail API service object."""
-    token_file = credentials_dir / "token.json"
-    credentials_file = credentials_dir / "credentials.json"
+def get_gmail_service(credentials_file: Path, token_dir: Path):
+    """Authenticate and return a Gmail API service object.
+
+    Args:
+        credentials_file: Path to the OAuth credentials.json (org-provided app identity).
+        token_dir: Directory where the member's personal token.json is stored/written.
+    """
+    token_file = token_dir / "token.json"
     creds = None
 
     if token_file.exists():
@@ -71,10 +75,12 @@ def get_gmail_service(credentials_dir: Path):
         else:
             if not credentials_file.exists():
                 print(f"ERROR: credentials.json not found at: {credentials_file}")
-                print("See the email-triage collection README for setup instructions.")
+                print("Your org admin provides this file at collection install time.")
+                print("Contact your admin or re-run collection setup.")
                 sys.exit(1)
             flow = InstalledAppFlow.from_client_secrets_file(str(credentials_file), SCOPES)
             creds = flow.run_local_server(port=0)
+        token_dir.mkdir(parents=True, exist_ok=True)
         with open(token_file, "w") as f:
             f.write(creds.to_json())
 
@@ -151,7 +157,18 @@ def main():
     )
     parser.add_argument(
         "--credentials-dir", dest="credentials_dir", default=None, metavar="DIR",
-        help="Directory containing credentials.json and token.json. Defaults to this script's directory."
+        help="(Legacy) Directory containing both credentials.json and token.json. "
+             "Prefer --credentials-file and --token-dir for the split model."
+    )
+    parser.add_argument(
+        "--credentials-file", dest="credentials_file", default=None, metavar="FILE",
+        help="Path to credentials.json (org-provided OAuth app identity). "
+             "Overrides --credentials-dir for the credentials file."
+    )
+    parser.add_argument(
+        "--token-dir", dest="token_dir", default=None, metavar="DIR",
+        help="Directory for the member's personal token.json. "
+             "Overrides --credentials-dir for the token file."
     )
     parser.add_argument(
         "--dry-run", action="store_true",
@@ -159,15 +176,15 @@ def main():
     )
     args = parser.parse_args()
 
-    if args.credentials_dir:
-        creds_dir = Path(args.credentials_dir)
-    else:
-        creds_dir = Path(__file__).parent
+    # Resolve credential paths: new split flags take precedence over legacy --credentials-dir
+    base_dir = Path(args.credentials_dir) if args.credentials_dir else Path(__file__).parent
+    creds_file = Path(args.credentials_file) if args.credentials_file else base_dir / "credentials.json"
+    token_dir = Path(args.token_dir) if args.token_dir else base_dir
 
     if args.dry_run:
         print("(DRY RUN — no changes will be made)\n")
 
-    service = get_gmail_service(creds_dir)
+    service = get_gmail_service(creds_file, token_dir)
     label_id = get_or_create_label(service, args.label)
     ok = apply_label_to_messages(service, args.message_ids, label_id, args.label, args.dry_run)
     sys.exit(0 if ok else 1)
