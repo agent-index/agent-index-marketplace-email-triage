@@ -36,4 +36,14 @@ No parameters are required for the tutorial skill. It reads the member's `setup-
 
 ## Upgrade Behavior
 
-No state is preserved or reset — the skill has no member-specific configuration. Upgrades are transparent.
+### Preserved Responses
+N/A.
+
+### Reset on Upgrade
+N/A.
+
+### Requires Member Attention
+None. The tutorial content updates automatically with the collection — no member action needed.
+
+### Migration Notes
+- v1.0 → future versions: migration notes will be added here as new versions are published.

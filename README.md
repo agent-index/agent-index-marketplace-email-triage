@@ -12,6 +12,7 @@ Email Triage scans your Gmail inbox on each run, classifies every unread email, 
 - **email-triage-config** (skill) — Interactive category management. Add, edit, or remove triage categories. Manage VIP senders and ignore lists. Preview how configuration changes would affect classification.
 - **email-triage-train** (skill) — Review and correct classification decisions from recent runs. Corrections accumulate into sender rules and example-based guidance that the triage task reads on future runs to improve accuracy.
 - **email-digest** (task) — Reads emails under a specified label (e.g., `ai-reviewed-news`) and produces an HTML briefing with article summaries.
+- **email-triage-tutorial** (skill) — Guided walkthrough of the email triage system. Explains concepts, workflows, and answers specific questions about inbox classification, training, and configuration. Say `@ai:email-triage-tutorial` to start.
 
 ## Prerequisites
 
