@@ -1,7 +1,7 @@
 ---
 name: email-triage-config-setup
 type: setup
-version: 1.0.0
+version: 1.2.0
 collection: email-triage
 description: Setup for the email-triage-config skill — installs the interactive category management interface.
 target: email-triage-config

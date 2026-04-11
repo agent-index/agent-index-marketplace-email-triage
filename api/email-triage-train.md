@@ -1,7 +1,7 @@
 ---
 name: email-triage-train
 type: skill
-version: 1.0.0
+version: 1.2.0
 collection: email-triage
 description: Review classification decisions from recent triage runs and record corrections that improve future accuracy.
 stateful: true

@@ -4,7 +4,7 @@
   "display_name": "Email Triage Config",
   "collection": "email-triage",
   "collection_version": "1.2.0",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "eol_date": null,
   "eol_warning_days": 60,
   "stateful": true,

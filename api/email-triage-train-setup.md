@@ -1,7 +1,7 @@
 ---
 name: email-triage-train-setup
 type: setup
-version: 1.0.0
+version: 1.2.0
 collection: email-triage
 description: Setup for the email-triage-train skill — installs the classification review and correction learning interface.
 target: email-triage-train

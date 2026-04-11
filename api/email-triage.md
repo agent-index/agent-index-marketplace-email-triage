@@ -1,7 +1,7 @@
 ---
 name: email-triage
 type: task
-version: 1.0.0
+version: 1.2.0
 collection: email-triage
 description: Scan Gmail inbox for unread emails, classify into configured categories, label and archive non-essential emails, evaluate priority for the rest, and deliver a structured summary.
 stateful: true

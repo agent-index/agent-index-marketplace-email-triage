@@ -1,7 +1,7 @@
 ---
 name: email-digest
 type: task
-version: 1.0.0
+version: 1.2.0
 collection: email-triage
 description: Read emails under a specified triage label, fetch linked articles, and produce a structured HTML briefing with featured and skipped sections.
 stateful: true

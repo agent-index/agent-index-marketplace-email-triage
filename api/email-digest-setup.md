@@ -1,7 +1,7 @@
 ---
 name: email-digest-setup
 type: setup
-version: 1.0.0
+version: 1.2.0
 collection: email-triage
 description: Setup for the email-digest task — configures source label, relevance criteria, and artifact storage for HTML briefings.
 target: email-digest

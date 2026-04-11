@@ -1,7 +1,7 @@
 ---
 name: email-triage-config
 type: skill
-version: 1.0.0
+version: 1.2.0
 collection: email-triage
 description: Interactively manage email triage categories, VIP senders, ignore lists, and classification parameters.
 stateful: true

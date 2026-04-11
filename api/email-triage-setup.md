@@ -1,7 +1,7 @@
 ---
 name: email-triage-setup
 type: setup
-version: 1.0.0
+version: 1.2.0
 collection: email-triage
 description: Setup for the email-triage task — configures inbox classification categories, delivery method, Gmail credentials, and priority settings. All parameters are member-defined; collection setup provides suggested defaults as starting values.
 target: email-triage
