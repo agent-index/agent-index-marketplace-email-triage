@@ -1,18 +1,18 @@
 {
   "name": "email-triage",
   "display_name": "Email Triage",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Automated Gmail inbox triage with configurable categories, priority detection, iterative training, and summary delivery via Slack or chat.",
   "author": "agent-index",
   "license": "proprietary",
   "category": "communication",
   "agent_index_min_version": "3.0.0",
   "api": [
-    "email-triage",
-    "email-triage-config",
-    "email-triage-train",
-    "email-digest",
-    "email-triage-tutorial"
+    {"name":"email-triage","triggers":[{"phrase":"triage my email","capability":"email-triage","description":"Run inbox triage with priority detection"},{"phrase":"check my inbox","capability":"email-triage","description":"Scan and categorize recent emails"},{"phrase":"what's important in my email","capability":"email-triage","description":"Surface high-priority emails"},{"phrase":"process my email","capability":"email-triage","description":"Run the full email triage workflow"}]},
+    {"name":"email-triage-config","triggers":[{"phrase":"configure email triage","capability":"email-triage-config","description":"Adjust email triage categories and settings"},{"phrase":"change my email settings","capability":"email-triage-config","description":"Modify email triage configuration"}]},
+    {"name":"email-triage-train","triggers":[{"phrase":"train email triage","capability":"email-triage-train","description":"Improve triage accuracy with feedback"},{"phrase":"email triage got this wrong","capability":"email-triage-train","description":"Correct a misclassified email"}]},
+    {"name":"email-digest","triggers":[{"phrase":"email digest","capability":"email-digest","description":"Generate a summary digest of recent emails"},{"phrase":"summarize my emails","capability":"email-digest","description":"Create a condensed email overview"}]},
+    {"name":"email-triage-tutorial","triggers":[{"phrase":"how does email triage work","capability":"email-triage-tutorial","description":"Learn how to use email triage features"}]}
   ],
   "dependencies": [],
   "external_dependencies": [
