@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.2.2] — 2026-06-06 — fleet docs hygiene (post-audit sweep)
+
+### Fixed (docs only)
+
+- All capability manifests re-stamped with the correct `collection_version` (preflight Check 2 compliance).
+
 ## [1.2.1] — 2026-04-19
 
 ### Added
