@@ -1,7 +1,7 @@
 ---
 name: email-triage-setup
 type: setup
-version: 1.2.0
+version: 1.2.1
 collection: email-triage
 description: Setup for the email-triage task — configures inbox classification categories, delivery method, Gmail credentials, and priority settings. All parameters are member-defined; collection setup provides suggested defaults as starting values.
 target: email-triage
@@ -88,11 +88,6 @@ How aggressively to flag emails as high priority.
 ### `slack_user_id` [member-defined]
 The member's Slack user ID for DM delivery. Required if delivery_method is `slack`.
 - Ask the member for their Slack user ID. Suggest they find it in Slack profile → three dots → "Copy member ID."
-
-### `apps_path` [member-defined]
-Path to the collection's `apps/` directory containing the `gmail-labeler` and `gmail-archiver` scripts.
-- Default: resolved automatically from the collection's install directory
-- Used in bash commands to invoke the labeling and archiving scripts
 
 ### `token_dir` [member-defined]
 Path to the directory where the member's personal `token.json` is stored (generated during the browser auth flow in Prerequisites).
