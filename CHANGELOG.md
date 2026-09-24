@@ -1,5 +1,23 @@
 # Changelog
 
+## [1.2.3] — 2026-09-23 — adopt core's `apps_path`
+
+**PATCH — no capability behaviour changes. Requires agent-index-core 3.29.2 or later.**
+
+### Removed
+
+- **`apps_path` declaration** from `email-triage-setup.md`, and its `parameter_provenance` entry from `email-triage-manifest.json`. It was `[member-defined]`, which prompted the member to type a path — for a directory that, before core 3.29.0, did not exist on their machine at all, and that core now computes and supplies as a core-injected parameter (`standards.md`, "Core-Injected Parameters").
+
+  `{apps_path}` is unchanged in `email-triage.md` and `email-digest.md` where the labeling and archiving scripts are invoked. Core supplies the value.
+
+### Unchanged, deliberately
+
+- **`token_dir` and `{member_workspace}/apps/gmail-credentials/` are untouched.** That directory is OAuth credential space, placed by this collection's own setup template, and named for the external *app* it authenticates against. It has nothing to do with `installed/{collection}/apps/`, which holds bundled scripts and is placed — and wholesale-replaced on every upgrade — by core. The two share a word and nothing else. Collapsing them would put member credentials in a directory core deletes on each collection upgrade. Core's authoring guide now calls this distinction out explicitly.
+
+### Known gap (not fixed here)
+
+This collection's `apps/requirements.txt` pins three third-party packages — `google-api-python-client`, `google-auth-oauthlib`, `google-auth-httplib2`. Core materializes `requirements.txt` onto the member's machine but does not create an environment or run `pip`, so the labeling and archiving scripts are present and will still fail on first run unless the member has those packages. `bug-reports` and `cx-studio` are standard-library only, so email-triage is currently the only collection with this problem. Tracked in core's `ROADMAP.md`; a real fix needs either a sanctioned per-collection environment or an explicit install step at setup.
+
 ## [1.2.2] — 2026-06-06 — fleet docs hygiene (post-audit sweep)
 
 ### Fixed (docs only)
