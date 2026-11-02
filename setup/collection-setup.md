@@ -30,7 +30,10 @@ The Gmail labeling and archiving scripts require a Google Cloud OAuth2 `credenti
 **Setup flow:**
 
 1. Ask the admin: "Do you already have a Google Cloud project with an OAuth client configured for the Gmail API (`gmail.modify` scope), or do you need to create one?"
+   - If they have one: ask them to check, on that client's page in Google Cloud Console, that **'Use this client for an AI-powered agent' is unchecked**, and to uncheck it before 2026-11-12 if it isn't. After that date Google won't let them change it on an existing client, and a client marked as an AI agent means creating a new one (step 2).
 2. If creating new: walk through enabling the Gmail API in Google Cloud Console, creating an OAuth consent screen (internal to the org), creating a Desktop OAuth client ID, and downloading `credentials.json`.
+   - **On the Create client form, tell the admin to leave 'Use this client for an AI-powered agent' unchecked.** The labeling and archiving scripts call the Gmail API directly, not Google's Workspace MCP server, and a client marked as an AI agent falls under separate admin controls that can restrict or block it, which would stop email labeling and archiving for every member. From 2026-11-12 Google won't let you change this on an existing client: fixing a wrong choice then means a new client and a new `credentials.json`, and every member authorizing Gmail again. Google explains the setting here (section 'Configure OAuth Clients for AI Agents'): https://support.google.com/cloud/answer/15549257
+   - Why (Core Improvements CI-034, following core create-org's CI-022 guidance for the agent-index Drive client): Google's Workspace developer notice of 2026-10-12 makes this setting a required choice from 2026-11-12 that can't be changed on an existing client.
 3. Store `credentials.json` on the **remote filesystem** at: `org-config/apps/gmail-credentials/credentials.json` (using `aifs_write`).
 4. Confirm: "This credentials.json will be used by all members for email labeling and archiving. Each member will authorize their own Gmail account against it during their setup."
 
