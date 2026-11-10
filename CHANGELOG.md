@@ -1,6 +1,6 @@
 # Changelog
 
-## [1.2.4] — 2026-11-11 — Gmail OAuth client: leave "AI-powered agent" unchecked
+## [1.2.4] — 2026-11-10 — Gmail OAuth client: leave "AI-powered agent" unchecked
 
 **PATCH — setup guidance only; no capability behaviour changes.** Pairs with core 4.1.1. Has to be out before 2026-11-12.
 
