@@ -1,7 +1,7 @@
 ---
 name: email-triage-collection-setup
 type: collection-setup
-version: 1.2.0
+version: 1.2.1
 collection: email-triage
 description: Org-admin setup for the email-triage collection — configures suggested defaults for delivery method, label prefix, categories, and priority settings that members can customize during their own setup.
 upgrade_compatible: true

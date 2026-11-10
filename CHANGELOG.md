@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.4] — 2026-11-10 — Gmail OAuth client: leave "AI-powered agent" unchecked
+
+**PATCH — setup guidance only; no capability behaviour changes.** Pairs with core 4.1.1. Has to be out before 2026-11-12.
+
+### Changed
+- **Collection setup tells the admin to leave "Use this client for an AI-powered agent" unchecked** when creating the Gmail Desktop OAuth client (CI-034). The labeling and archiving scripts call the Gmail API directly, not Google's Workspace MCP server, and a client marked as an AI agent falls under separate admin controls that could restrict or block it. Google's Workspace developer notice of 2026-10-12 says the setting can't be changed on an existing client from 2026-11-12. An admin with an existing client is asked to check that it is unchecked.
+
 ## [1.2.3] — 2026-09-23 — adopt core's `apps_path`
 
 **PATCH — no capability behaviour changes. Requires agent-index-core 3.29.2 or later.**
